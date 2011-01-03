@@ -1,0 +1,96 @@
+{% extends "services/base.html" %}
+
+{% block assets %}
+<link media="all" rel="stylesheet" href="/assets/bursar/css/main.css" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<p>Welcome the Bursar Beta 0.1</p>
+<p>Please try not to break stuff and if it does, come talk to me Richard, there isn't going to be a bug tracker for this.</p>
+
+<h2 >Summary</h2>
+{% for user in users %}
+<div class="table-holder">
+	<h3>{{ user.first_name }} {{ user.last_name }}</h3>
+	<table class="user-summary" 
+		<tr>
+			<td>Payments owing</td>
+			<td>{{ user.get_payments_owing }}</td>
+		</tr>
+		<tr>
+			<td>Payments owing overdue</td>
+			<td>{{ user.get_payments_owing_od }}</td>
+		</tr>
+		<tr>
+			<td>Payments owed</td>
+			<td>{{ user.get_payments_owed }}</td>
+		</tr>
+		<tr>
+			<td>Payments owed overdue</td>
+			<td>{{ user.get_payments_owed_od }}</td>
+		</tr>
+	</table>
+</div>
+{% endfor %}
+
+<h2>Add a transation</h2>
+<form action="/bursar/transaction/add" method="post">
+	<select name="payer">
+	{% for user in users %}
+		<option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+	{% endfor %}
+	</select>
+	owes 
+	<select name="payee">
+	{% for user in users %}
+		<option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+	{% endfor %}
+	</select>
+	£
+	<input type="text" name="value"><br>
+	for 
+	<input name="reference" type="text" />
+	due by
+	<input name="due_by" type="text" />
+	<input type="submit" value="go">
+	<br>
+</form>
+<h2>Transactions</h2>
+<form method="post" action="/bursar/transactions/update">
+<table id="txs">
+	<tr>
+		<th>Payer</th>
+		<th>Payee</th>
+		<th>Value</th>
+		<th>Reference</th>
+		<th>Due on</th>
+		<th>Paid</th>
+	</tr>
+{% for tx in txs %}
+	<tr>
+		<td>{{ tx.payer.first_name }} {{ tx.payer.last_name }}</td>
+		<td>{{ tx.payee.first_name }} {{ tx.payee.last_name }}</td>
+		<td>£{{ tx.value|stringformat:".2f" }}</td>
+		<td>{{ tx.reference }}</td>
+		<td>{{ tx.due_by }}</td>
+		<td>{% if tx.paid %}Paid{% else %}Unpaid{% endif %}</td>
+		{% if not tx.paid %}
+		<td>
+			<input 
+				id="tx{{ tx.id}}"
+				name="tx{{ tx.id }}"
+				type="checkbox"
+				/>
+		</td>
+		{% endif %}
+	</tr>
+{% endfor %}
+	<tr>
+		<td colspan="7" style="text-align:right">
+			<input type="submit" value="update" />
+		</td>
+	</tr>
+</table>
+</form>
+
+{% endblock %}
