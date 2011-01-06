@@ -12,7 +12,7 @@
 {% for user in users %}
 <div class="table-holder">
 	<h3>{{ user.first_name }} {{ user.last_name }}</h3>
-	<table class="user-summary" 
+	<table class="user-summary">
 		<tr>
 			<td>Payments owing</td>
 			<td>{{ user.get_payments_owing }}</td>
@@ -64,7 +64,7 @@
 		<th>Value</th>
 		<th>Reference</th>
 		<th>Due on</th>
-		<th>Paid</th>
+		<th colspan="2">Paid</th>
 	</tr>
 {% for tx in txs %}
 	<tr>
@@ -74,15 +74,15 @@
 		<td>{{ tx.reference }}</td>
 		<td>{{ tx.due_by }}</td>
 		<td>{% if tx.paid %}Paid{% else %}Unpaid{% endif %}</td>
-		{% if not tx.paid %}
 		<td>
+		{% if not tx.paid %}
 			<input 
 				id="tx{{ tx.id}}"
 				name="tx{{ tx.id }}"
 				type="checkbox"
 				/>
-		</td>
 		{% endif %}
+		</td>
 	</tr>
 {% endfor %}
 	<tr>

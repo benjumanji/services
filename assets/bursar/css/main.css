@@ -3,3 +3,55 @@
 	; margin-bottom:15px
 	; width:50%;
 }
+
+.user-summary {
+		border-collapse:separate
+	; border-spacing:0px 2px
+}
+
+.user-summary > tbody > tr > td {
+		border:1px solid #666666
+}
+
+.user-summary > tbody > tr > td:first-child {
+		background:#888888
+	; border-right:none
+	; color:#ffffff
+}
+
+#txs {
+		border-collapse:collapse
+}
+
+#txs > tbody > tr > td {
+		padding:8px 3px
+}
+
+#txs > tbody > tr > td + td {
+		border-left:1px solid #CCC
+}
+
+#txs > tbody > tr:nth-child(odd) > td {
+		background:#EEE
+}
+
+#txs > tbody > tr:last-child > td {
+		background:#FFF
+}
+
+#txs > tbody > tr > td:last-child {
+		border-left:none
+}
+
+
+#txs > tbody > tr > th {
+		background:#9ABFE3
+	; border-top:1px solid #CCC
+	; border-bottom:1px solid #CCC
+	; padding:8px 3px
+	; text-align:left
+
+}
+
+#txs > tbody > tr > th + th {
+}
