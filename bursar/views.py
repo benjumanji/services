@@ -3,12 +3,13 @@ import datetime as dt
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from bursar.models import User,Transaction
+from bursar.models import User, Transaction, TransactionForm
 
 def home(request):
     users = User.objects.all()
     txs = Transaction.objects.all()
-    return render_to_response('bursar/index.html',{'users':users, 'txs':txs})
+    tx_form = TransactionForm()
+    return render_to_response('bursar/index.html',{'users':users, 'txs':txs, 'tx_form':tx_form})
 
 def add(request):
     post = request.POST

@@ -1,13 +1,15 @@
 from django.db import models
 from django.db.models import Sum
+from django.forms import ModelForm
 from datetime import datetime
+from bursar.widgets import DatePickerWidget
 
 class User(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
 
     def __unicode__(self):
-        return '<User:%s%s>' % (self.first_name,self.last_name)
+        return '%s %s' % (self.first_name,self.last_name)
 
     def get_payments_owing(self):
         return self.payer.filter(paid=False).aggregate(Sum('value'))["value__sum"]
@@ -31,6 +33,8 @@ class User(models.Model):
         q3 = q2.filter(payer__paid=False,payer__due_by__lt=today).annotate(payments_owing_od=Sum('payer__value'))
         q4 = q3.filter(payee__paid=False,payee__due_by__lt=today).annotate(payments_owed_od=Sum('payee__value'))
         return q4
+
+
 class Transaction(models.Model):
     payer = models.ForeignKey(User, related_name='payer')
     payee = models.ForeignKey(User, related_name='payee')
@@ -43,3 +47,10 @@ class Transaction(models.Model):
 
     def __unicode__(self):
         return '<Tx:%s/%i>' % (self.reference,self.value)
+
+
+class TransactionForm(ModelForm):
+    class Meta:
+        model = Transaction
+        widgets = {'due_by':DatePickerWidget}
+        exclude = ('disputed','paid')
