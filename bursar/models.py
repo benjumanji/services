@@ -52,5 +52,5 @@ class Transaction(models.Model):
 class TransactionForm(ModelForm):
     class Meta:
         model = Transaction
-        widgets = {'due_by':DatePickerWidget}
+        widgets = {'due_by':DatePickerWidget(format='%d/%m/%Y')}
         exclude = ('disputed','paid')

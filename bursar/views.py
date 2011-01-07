@@ -12,22 +12,19 @@ def home(request):
     return render_to_response('bursar/index.html',{'users':users, 'txs':txs, 'tx_form':tx_form})
 
 def add(request):
-    post = request.POST
-    payer_id = post['payer']
-    payee_id = post['payee']
-    value = post['value']
-    reference = post['reference']
-    dba = map(int,post['due_by'].split('/'))
-    dba.reverse()
-
-    tx = Transaction()
-    tx.payer_id = payer_id
-    tx.value = value
-    tx.due_by = dt.date(*dba)
-    tx.payee_id = payee_id
-    tx.reference = reference
-    tx.save()
-
+    form = TransactionForm(request.POST)
+    if form.is_valid():
+        data = form.cleaned_data
+        tx = Transaction()
+        tx.payer = data['payer']
+        tx.payee = data['payee']
+        tx.value = data['value']
+        tx.reference = data['reference']
+        tx.due_by = data['due_by']
+        tx.save()
+    else:
+        pass
+        #TODO: Add form errors!
     return HttpResponseRedirect(reverse('services.bursar.views.home'))
 
 def update(request):
