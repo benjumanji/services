@@ -34,27 +34,7 @@
 </div>
 {% endfor %}
 
-<h2>Add a transation</h2>
 <form action="/bursar/transaction/add" method="post">
-	<!--select name="payer">
-	{% for user in users %}
-		<option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
-	{% endfor %}
-	</select>
-	owes 
-	<select name="payee">
-	{% for user in users %}
-		<option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
-	{% endfor %}
-	</select>
-	£
-	<input type="text" name="value"><br>
-	for 
-	<input name="reference" type="text" />
-	due by
-	<input name="due_by" type="text" />
-	<input type="submit" value="go">
-	<br-->
 	{{ tx_form.as_p }}
 	<p>
 		<input type="submit" value="Add Transaction">

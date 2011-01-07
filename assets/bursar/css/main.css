@@ -19,6 +19,10 @@
 	; color:#ffffff
 }
 
+.errorlist {
+		color:red
+}
+
 #txs {
 		border-collapse:collapse
 }

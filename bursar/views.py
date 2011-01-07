@@ -9,7 +9,7 @@ def home(request):
     users = User.objects.all()
     txs = Transaction.objects.all()
     tx_form = TransactionForm()
-    return render_to_response('bursar/index.html',{'users':users, 'txs':txs, 'tx_form':tx_form})
+    return render_to_response('bursar/index.html', {'users':users, 'txs':txs, 'tx_form':tx_form})
 
 def add(request):
     form = TransactionForm(request.POST)
@@ -22,10 +22,11 @@ def add(request):
         tx.reference = data['reference']
         tx.due_by = data['due_by']
         tx.save()
+        return HttpResponseRedirect(reverse('bursar.views.home'))
     else:
-        pass
-        #TODO: Add form errors!
-    return HttpResponseRedirect(reverse('services.bursar.views.home'))
+        u = User.objects.all()
+        txs = Transaction.objects.all()
+        return render_to_response('bursar/index.html', {'users':u,'txs':txs, 'tx_form':form})
 
 def update(request):
     post = request.POST
@@ -36,4 +37,4 @@ def update(request):
         tx.paid = True
         tx.save()
 
-    return HttpResponseRedirect(reverse('services.bursar.views.home'))
+    return HttpResponseRedirect(reverse('bursar.views.home'))

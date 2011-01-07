@@ -4,7 +4,7 @@ from django.conf.urls.defaults import *
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('services.bursar.views',
+urlpatterns = patterns('bursar.views',
     (r'^$', 'home'),
     (r'^transaction/add','add'),
     (r'^transactions/update','update')
